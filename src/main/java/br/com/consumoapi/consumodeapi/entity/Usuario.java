@@ -1,10 +1,14 @@
 package br.com.consumoapi.consumodeapi.entity;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
+import java.util.ArrayList;
+import java.util.List;
 
 @Entity(name = "Usuario")
 @Table(name = "tb_user")
@@ -20,8 +24,14 @@ public class Usuario implements Serializable {
     @Column(name = "user_name")
     private String nome;
 
+
     @Column(name = "user_dtNascimento")
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
     private Instant dtNascimento;
+
+    @JsonIgnore
+    @OneToMany(mappedBy = "usuario")
+    private List<Telefone> telefones = new ArrayList<>();
 
     public Usuario() {
     }
@@ -54,5 +64,9 @@ public class Usuario implements Serializable {
 
     public void setDtNascimento(Instant dtNascimento) {
         this.dtNascimento = dtNascimento;
+    }
+
+    public List<Telefone> getTelefones() {
+        return telefones;
     }
 }
