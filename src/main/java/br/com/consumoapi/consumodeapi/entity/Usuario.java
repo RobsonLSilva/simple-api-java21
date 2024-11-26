@@ -1,14 +1,15 @@
 package br.com.consumoapi.consumodeapi.entity;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
-import com.fasterxml.jackson.annotation.JsonIgnore;
 import jakarta.persistence.*;
 
 import java.io.Serial;
 import java.io.Serializable;
 import java.time.Instant;
 import java.util.ArrayList;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Set;
 
 @Entity(name = "Usuario")
 @Table(name = "tb_user")
@@ -29,17 +30,18 @@ public class Usuario implements Serializable {
     @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd'T'HH:mm:ss'Z'", timezone = "GMT")
     private Instant dtNascimento;
 
-    @JsonIgnore
-    @OneToMany(mappedBy = "usuario")
-    private List<Telefone> telefones = new ArrayList<>();
+    @OneToMany(cascade = CascadeType.ALL, orphanRemoval = true)
+    @JoinColumn(name = "usuario_id") // Define a chave estrangeira na tabela de telefone
+    private List<Telefone> telefones;
 
     public Usuario() {
     }
 
-    public Usuario(Long id, String nome, Instant dtNascimento) {
+    public Usuario(Long id, String nome, Instant dtNascimento, List<Telefone> telefones) {
         this.id = id;
         this.nome = nome;
         this.dtNascimento = dtNascimento;
+        this.telefones = telefones;
     }
 
     public Long getId() {
@@ -68,5 +70,9 @@ public class Usuario implements Serializable {
 
     public List<Telefone> getTelefones() {
         return telefones;
+    }
+
+    public void setTelefones(List<Telefone> telefones) {
+        this.telefones = telefones;
     }
 }

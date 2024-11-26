@@ -2,36 +2,29 @@ package br.com.consumoapi.consumodeapi.entity;
 
 import jakarta.persistence.*;
 
-import java.io.Serial;
-import java.io.Serializable;
-
 @Entity
 @Table(name = "tb_telefone")
-public class Telefone implements Serializable {
-    @Serial
-    private static final long serialVersionUID = 1L;
+public class Telefone {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "tel_fixo")
-    private String fixo;
-    @Column(name = "tel_celular")
-    private String celular;
 
-    @ManyToOne
-    @JoinColumn(name = "usuario_id")
-    private Usuario usuario;
+    private String numero;
+    private String tipo; // Ex: Celular, Comercial, etc.
 
+    // Construtores
     public Telefone() {
+
     }
 
-    public Telefone(Long id, String fixo, String celular) {
+    public Telefone(Long id, String numero, String tipo) {
         this.id = id;
-        this.fixo = fixo;
-        this.celular = celular;
+        this.numero = numero;
+        this.tipo = tipo;
     }
 
+    // Getters e Setters
     public Long getId() {
         return id;
     }
@@ -40,27 +33,19 @@ public class Telefone implements Serializable {
         this.id = id;
     }
 
-    public String getFixo() {
-        return fixo;
+    public String getNumero() {
+        return numero;
     }
 
-    public void setFixo(String fixo) {
-        this.fixo = fixo;
+    public void setNumero(String numero) {
+        this.numero = numero;
     }
 
-    public String getCelular() {
-        return celular;
+    public String getTipo() {
+        return tipo;
     }
 
-    public void setCelular(String celular) {
-        this.celular = celular;
-    }
-
-    public Usuario getUsuario() {
-        return usuario;
-    }
-
-    public void setUsuario(Usuario usuario) {
-        this.usuario = usuario;
+    public void setTipo(String tipo) {
+        this.tipo = tipo;
     }
 }
